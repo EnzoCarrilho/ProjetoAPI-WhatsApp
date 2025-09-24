@@ -593,6 +593,6 @@ const contatos = { "whats-users" :
                           ]
                         }
 
-MediaSourceHandle.exports = {
+module.exports = {
   contatos
 }
