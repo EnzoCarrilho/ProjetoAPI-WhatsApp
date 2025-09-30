@@ -57,7 +57,7 @@ const getUserMessages = function(userNumber){
     console.log(message)
 }
 
-const getMessagesByContact = function(userNumber, contactNumber){
+const getMessagesByContactNumber = function(userNumber, contactNumber){
     let number = userNumber
     let user = dados.contatos['whats-users'].find(user => user.number == number)
 
@@ -67,12 +67,15 @@ const getMessagesByContact = function(userNumber, contactNumber){
 
     let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', contact}
     console.log(message)
-
-
 }
 
-const getMessageByKeyWord = function(contact, keyWord){
+const getMessageByKeyWord = function(userNumber, contactNumber, keyWord){
+    let number = userNumber
+    let user = dados.contatos['whats-users'].find(user => user.number == number)
 
+    let contact = user.contacts.find(contact => contact.number == contactNumber)
+    let contactMessage = contact.messages.filter(message => message.content.includes(keyWord))
+    console.log(contactMessage)
 }
 
 module.exports = {
@@ -80,11 +83,13 @@ module.exports = {
     getUserProfile,
     getUserContacts,
     getUserMessages,
-
+    getMessagesByContactNumber,
+    getMessageByKeyWord,
 }
 
 //getAllUsers()
 //getUserProfile(11987876567)
 //getUserContacts(11987876567)
 //getUserMessages(11987876567)
-getMessagesByContact(11987876567, 269999799601)
+//getMessagesByContactNumber(11987876567, 269999799601)
+//getMessageByKeyWord(11987876567, 269999799601, 'project')
