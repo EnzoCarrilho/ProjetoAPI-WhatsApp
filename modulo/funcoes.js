@@ -13,7 +13,7 @@ const getAllUsers = function(){
    let users = dados.contatos['whats-users']
    
    let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', users}
-   console.log(message)
+   return message
 }
 
 // Retorna dados do Perfil do usuário
@@ -23,9 +23,11 @@ const getUserProfile = function(userNumber){
     delete user.contacts
 
     let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', user}
-    console.log(message)
+    return message
+    
 }
 
+// Retorna todos os contatos de um usuário
 const getUserContacts = function(userNumber){
     number = userNumber
     let user = dados.contatos['whats-users'].find(user => user.number == number)
@@ -39,24 +41,28 @@ const getUserContacts = function(userNumber){
     })
 
     let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', user}
-    console.log(message)
+    return message
 }
 
+// Retorna todas as mensagens de todos os contatos de um usuário
 const getUserMessages = function(userNumber){
     let number = userNumber
     let user = dados.contatos['whats-users'].find(user => user.number == number)
 
-    let userMessages = user.contacts
-    userMessages.forEach((contact) => {
-        delete contact.name
+    delete user.nickname
+    delete user['created-since']
+    delete user['profile-image']
+    delete user.background
+    user.contacts.forEach(contact => {
         delete contact.description
         delete contact.image
     })
 
-    let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', userMessages}
-    console.log(message)
+    let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', user}
+    return message
 }
 
+// Retorna todas as mensagens de um contatos específico de um usuário
 const getMessagesByContactNumber = function(userNumber, contactNumber){
     let number = userNumber
     let user = dados.contatos['whats-users'].find(user => user.number == number)
@@ -66,16 +72,25 @@ const getMessagesByContactNumber = function(userNumber, contactNumber){
     delete contact.image
 
     let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', contact}
-    console.log(message)
+    return message
 }
 
+// Retorna uma mensagem específica de um contato na lista de contatos do usuário
 const getMessageByKeyWord = function(userNumber, contactNumber, keyWord){
     let number = userNumber
     let user = dados.contatos['whats-users'].find(user => user.number == number)
 
+    delete user.nickname
+    delete user['created-since']
+    delete user['profile-image']
+    delete user.background
+
     let contact = user.contacts.find(contact => contact.number == contactNumber)
     let contactMessage = contact.messages.filter(message => message.content.includes(keyWord))
-    console.log(contactMessage)
+    
+    let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', contactMessage}
+    return message
+    
 }
 
 module.exports = {
@@ -88,7 +103,7 @@ module.exports = {
 }
 
 //getAllUsers()
-//getUserProfile(11987876567)
+//getUserProfile('11987876567')
 //getUserContacts(11987876567)
 //getUserMessages(11987876567)
 //getMessagesByContactNumber(11987876567, 269999799601)
