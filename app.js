@@ -17,9 +17,10 @@ const PORT = process.PORT || 8080
 const app = express()
 
 
+
 app.use((request, response, next)=>{
-    response.header('Acces-Control-Allow-Origin', '*') 
-    response.header('Acces-Control-Allow-Methods', 'GET') 
+    response.header('Access-Control-Allow-Origin', '*') 
+    response.header('Access-Control-Allow-Methods', 'GET') 
     app.use(cors())
     next() 
 })
