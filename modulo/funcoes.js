@@ -89,6 +89,7 @@ const getMessageByKeyWord = function(userNumber, contactNumber, keyWord){
     let contactMessage = contact.messages.filter(message => message.content.includes(keyWord))
     
     let message = {status: true, status_code: 200, development: 'Enzo Felix Carrilho', contactMessage}
+    console.log(message)
     return message
     
 }
