@@ -33,7 +33,7 @@ app.get('/v1/whatsapp', (request,response)=>{
     response.json(usuarios)
 })
 
-app.get('/v1/whatsapp/:number', (request,response)=>{ 
+app.get('/v1/whatsapp/user/:number', (request,response)=>{ 
     let userNumber = request.params.number
     let usuario = dados.getUserProfile(userNumber)
     response.status(usuario.status_code)
@@ -47,27 +47,30 @@ app.get('/v1/whatsapp/contatos/:number', (request,response)=>{
     response.json(contacts)
 })
 
-app.get('/v1/whatsapp/mensagens/:number', (request,response)=>{ 
-    let userNumber = request.params.number
-    let messages = dados.getUserMessages(userNumber)
-    response.status(messages.status_code).json(messages)
-})
 
 app.get('/v1/whatsapp/mensagens/:number', (request,response)=>{ 
     let userNumber = request.params.number
     let contactNumber = request.query.contactNumber
+    let keyWord = request.query.keyWord
+
+    if(contactNumber && keyWord){
+        let messages = dados.getMessageByKeyWord(userNumber, contactNumber, keyWord)
+        response.status(messages.status_code).json(messages)
+
+    }else if(contactNumber){
+        let messages = dados.getMessagesByContactNumber(userNumber, contactNumber)
+        response.status(messages.status_code).json(messages)
+
+    }else{
+        let messages = dados.getUserMessages(userNumber)
+        response.status(messages.status_code).json(messages)
+    }
+
+
     let messages = dados.getMessagesByContactNumber(userNumber, contactNumber)
     response.status(messages.status_code).json(messages)
 })
 
-app.get('/v1/whatsapp/mensagem/:number', (request,response)=>{ 
-    let userNumber = request.params.number
-    let contactNumber = request.query.contactNumber
-    let keyWord = request.query.keyWord
-    console.log(keyWord)
-    let messages = dados.getMessageByKeyWord(userNumber, contactNumber, keyWord)
-    response.status(messages.status_code).json(messages)
-})
 
 
 //Start na API
